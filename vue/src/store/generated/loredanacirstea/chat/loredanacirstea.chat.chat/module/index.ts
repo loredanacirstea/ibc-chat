@@ -4,15 +4,15 @@ import { StdFee } from "@cosmjs/launchpad";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
-import { MsgCreateMessage } from "./types/chat/tx";
 import { MsgDeleteMessage } from "./types/chat/tx";
 import { MsgUpdateMessage } from "./types/chat/tx";
+import { MsgCreateMessage } from "./types/chat/tx";
 
 
 const types = [
-  ["/loredanacirstea.chat.chat.MsgCreateMessage", MsgCreateMessage],
   ["/loredanacirstea.chat.chat.MsgDeleteMessage", MsgDeleteMessage],
   ["/loredanacirstea.chat.chat.MsgUpdateMessage", MsgUpdateMessage],
+  ["/loredanacirstea.chat.chat.MsgCreateMessage", MsgCreateMessage],
   
 ];
 export const MissingWalletError = new Error("wallet is required");
@@ -45,9 +45,9 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
 
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
-    msgCreateMessage: (data: MsgCreateMessage): EncodeObject => ({ typeUrl: "/loredanacirstea.chat.chat.MsgCreateMessage", value: MsgCreateMessage.fromPartial( data ) }),
     msgDeleteMessage: (data: MsgDeleteMessage): EncodeObject => ({ typeUrl: "/loredanacirstea.chat.chat.MsgDeleteMessage", value: MsgDeleteMessage.fromPartial( data ) }),
     msgUpdateMessage: (data: MsgUpdateMessage): EncodeObject => ({ typeUrl: "/loredanacirstea.chat.chat.MsgUpdateMessage", value: MsgUpdateMessage.fromPartial( data ) }),
+    msgCreateMessage: (data: MsgCreateMessage): EncodeObject => ({ typeUrl: "/loredanacirstea.chat.chat.MsgCreateMessage", value: MsgCreateMessage.fromPartial( data ) }),
     
   };
 };
