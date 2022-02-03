@@ -2,6 +2,7 @@ import { StdFee } from "@cosmjs/launchpad";
 import { Registry, OfflineSigner, EncodeObject } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
 import { MsgDeleteMessage } from "./types/chat/tx";
+import { MsgSendSpaceMessage } from "./types/chat/tx";
 import { MsgUpdateMessage } from "./types/chat/tx";
 import { MsgCreateMessage } from "./types/chat/tx";
 export declare const MissingWalletError: Error;
@@ -16,6 +17,7 @@ interface SignAndBroadcastOptions {
 declare const txClient: (wallet: OfflineSigner, { addr: addr }?: TxClientOptions) => Promise<{
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }?: SignAndBroadcastOptions) => any;
     msgDeleteMessage: (data: MsgDeleteMessage) => EncodeObject;
+    msgSendSpaceMessage: (data: MsgSendSpaceMessage) => EncodeObject;
     msgUpdateMessage: (data: MsgUpdateMessage) => EncodeObject;
     msgCreateMessage: (data: MsgCreateMessage) => EncodeObject;
 }>;

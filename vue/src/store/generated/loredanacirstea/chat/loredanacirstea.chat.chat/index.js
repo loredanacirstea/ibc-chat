@@ -4,8 +4,10 @@ import { SpVuexError } from '@starport/vuex';
 import { Message } from "./module/types/chat/message";
 import { ChatPacketData } from "./module/types/chat/packet";
 import { NoData } from "./module/types/chat/packet";
+import { SpaceMessagePacketData } from "./module/types/chat/packet";
+import { SpaceMessagePacketAck } from "./module/types/chat/packet";
 import { Params } from "./module/types/chat/params";
-export { Message, ChatPacketData, NoData, Params };
+export { Message, ChatPacketData, NoData, SpaceMessagePacketData, SpaceMessagePacketAck, Params };
 async function initTxClient(vuexGetters) {
     return await txClient(vuexGetters['common/wallet/signer'], {
         addr: vuexGetters['common/env/apiTendermint']
@@ -46,6 +48,8 @@ const getDefaultState = () => {
             Message: getStructure(Message.fromPartial({})),
             ChatPacketData: getStructure(ChatPacketData.fromPartial({})),
             NoData: getStructure(NoData.fromPartial({})),
+            SpaceMessagePacketData: getStructure(SpaceMessagePacketData.fromPartial({})),
+            SpaceMessagePacketAck: getStructure(SpaceMessagePacketAck.fromPartial({})),
             Params: getStructure(Params.fromPartial({})),
         },
         _Registry: registry,
@@ -186,6 +190,23 @@ export default {
                 }
             }
         },
+        async sendMsgSendSpaceMessage({ rootGetters }, { value, fee = [], memo = '' }) {
+            try {
+                const txClient = await initTxClient(rootGetters);
+                const msg = await txClient.msgSendSpaceMessage(value);
+                const result = await txClient.signAndBroadcast([msg], { fee: { amount: fee,
+                        gas: "200000" }, memo });
+                return result;
+            }
+            catch (e) {
+                if (e == MissingWalletError) {
+                    throw new SpVuexError('TxClient:MsgSendSpaceMessage:Init', 'Could not initialize signing client. Wallet is required.');
+                }
+                else {
+                    throw new SpVuexError('TxClient:MsgSendSpaceMessage:Send', 'Could not broadcast Tx: ' + e.message);
+                }
+            }
+        },
         async sendMsgUpdateMessage({ rootGetters }, { value, fee = [], memo = '' }) {
             try {
                 const txClient = await initTxClient(rootGetters);
@@ -232,6 +253,21 @@ export default {
                 }
                 else {
                     throw new SpVuexError('TxClient:MsgDeleteMessage:Create', 'Could not create message: ' + e.message);
+                }
+            }
+        },
+        async MsgSendSpaceMessage({ rootGetters }, { value }) {
+            try {
+                const txClient = await initTxClient(rootGetters);
+                const msg = await txClient.msgSendSpaceMessage(value);
+                return msg;
+            }
+            catch (e) {
+                if (e == MissingWalletError) {
+                    throw new SpVuexError('TxClient:MsgSendSpaceMessage:Init', 'Could not initialize signing client. Wallet is required.');
+                }
+                else {
+                    throw new SpVuexError('TxClient:MsgSendSpaceMessage:Create', 'Could not create message: ' + e.message);
                 }
             }
         },

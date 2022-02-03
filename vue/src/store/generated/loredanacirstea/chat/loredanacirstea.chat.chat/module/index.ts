@@ -5,12 +5,14 @@ import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
 import { MsgDeleteMessage } from "./types/chat/tx";
+import { MsgSendSpaceMessage } from "./types/chat/tx";
 import { MsgUpdateMessage } from "./types/chat/tx";
 import { MsgCreateMessage } from "./types/chat/tx";
 
 
 const types = [
   ["/loredanacirstea.chat.chat.MsgDeleteMessage", MsgDeleteMessage],
+  ["/loredanacirstea.chat.chat.MsgSendSpaceMessage", MsgSendSpaceMessage],
   ["/loredanacirstea.chat.chat.MsgUpdateMessage", MsgUpdateMessage],
   ["/loredanacirstea.chat.chat.MsgCreateMessage", MsgCreateMessage],
   
@@ -46,6 +48,7 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
     msgDeleteMessage: (data: MsgDeleteMessage): EncodeObject => ({ typeUrl: "/loredanacirstea.chat.chat.MsgDeleteMessage", value: MsgDeleteMessage.fromPartial( data ) }),
+    msgSendSpaceMessage: (data: MsgSendSpaceMessage): EncodeObject => ({ typeUrl: "/loredanacirstea.chat.chat.MsgSendSpaceMessage", value: MsgSendSpaceMessage.fromPartial( data ) }),
     msgUpdateMessage: (data: MsgUpdateMessage): EncodeObject => ({ typeUrl: "/loredanacirstea.chat.chat.MsgUpdateMessage", value: MsgUpdateMessage.fromPartial( data ) }),
     msgCreateMessage: (data: MsgCreateMessage): EncodeObject => ({ typeUrl: "/loredanacirstea.chat.chat.MsgCreateMessage", value: MsgCreateMessage.fromPartial( data ) }),
     

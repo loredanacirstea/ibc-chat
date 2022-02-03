@@ -20150,6 +20150,8 @@ definitions:
         format: uint64
   loredanacirstea.chat.chat.MsgDeleteMessageResponse:
     type: object
+  loredanacirstea.chat.chat.MsgSendSpaceMessageResponse:
+    type: object
   loredanacirstea.chat.chat.MsgUpdateMessageResponse:
     type: object
   loredanacirstea.chat.chat.Params:

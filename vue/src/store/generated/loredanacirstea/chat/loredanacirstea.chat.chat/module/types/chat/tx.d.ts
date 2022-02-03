@@ -20,6 +20,16 @@ export interface MsgDeleteMessage {
 }
 export interface MsgDeleteMessageResponse {
 }
+export interface MsgSendSpaceMessage {
+    creator: string;
+    port: string;
+    channelID: string;
+    timeoutTimestamp: number;
+    body: string;
+    user: string;
+}
+export interface MsgSendSpaceMessageResponse {
+}
 export declare const MsgCreateMessage: {
     encode(message: MsgCreateMessage, writer?: Writer): Writer;
     decode(input: Reader | Uint8Array, length?: number): MsgCreateMessage;
@@ -62,12 +72,27 @@ export declare const MsgDeleteMessageResponse: {
     toJSON(_: MsgDeleteMessageResponse): unknown;
     fromPartial(_: DeepPartial<MsgDeleteMessageResponse>): MsgDeleteMessageResponse;
 };
+export declare const MsgSendSpaceMessage: {
+    encode(message: MsgSendSpaceMessage, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgSendSpaceMessage;
+    fromJSON(object: any): MsgSendSpaceMessage;
+    toJSON(message: MsgSendSpaceMessage): unknown;
+    fromPartial(object: DeepPartial<MsgSendSpaceMessage>): MsgSendSpaceMessage;
+};
+export declare const MsgSendSpaceMessageResponse: {
+    encode(_: MsgSendSpaceMessageResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgSendSpaceMessageResponse;
+    fromJSON(_: any): MsgSendSpaceMessageResponse;
+    toJSON(_: MsgSendSpaceMessageResponse): unknown;
+    fromPartial(_: DeepPartial<MsgSendSpaceMessageResponse>): MsgSendSpaceMessageResponse;
+};
 /** Msg defines the Msg service. */
 export interface Msg {
     CreateMessage(request: MsgCreateMessage): Promise<MsgCreateMessageResponse>;
     UpdateMessage(request: MsgUpdateMessage): Promise<MsgUpdateMessageResponse>;
-    /** this line is used by starport scaffolding # proto/tx/rpc */
     DeleteMessage(request: MsgDeleteMessage): Promise<MsgDeleteMessageResponse>;
+    /** this line is used by starport scaffolding # proto/tx/rpc */
+    SendSpaceMessage(request: MsgSendSpaceMessage): Promise<MsgSendSpaceMessageResponse>;
 }
 export declare class MsgClientImpl implements Msg {
     private readonly rpc;
@@ -75,6 +100,7 @@ export declare class MsgClientImpl implements Msg {
     CreateMessage(request: MsgCreateMessage): Promise<MsgCreateMessageResponse>;
     UpdateMessage(request: MsgUpdateMessage): Promise<MsgUpdateMessageResponse>;
     DeleteMessage(request: MsgDeleteMessage): Promise<MsgDeleteMessageResponse>;
+    SendSpaceMessage(request: MsgSendSpaceMessage): Promise<MsgSendSpaceMessageResponse>;
 }
 interface Rpc {
     request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;

@@ -11,6 +11,7 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgCreateMessage{}, "chat/CreateMessage", nil)
 	cdc.RegisterConcrete(&MsgUpdateMessage{}, "chat/UpdateMessage", nil)
 	cdc.RegisterConcrete(&MsgDeleteMessage{}, "chat/DeleteMessage", nil)
+	cdc.RegisterConcrete(&MsgSendSpaceMessage{}, "chat/SendSpaceMessage", nil)
 	// this line is used by starport scaffolding # 2
 }
 
@@ -19,6 +20,9 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 		&MsgCreateMessage{},
 		&MsgUpdateMessage{},
 		&MsgDeleteMessage{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgSendSpaceMessage{},
 	)
 	// this line is used by starport scaffolding # 3
 

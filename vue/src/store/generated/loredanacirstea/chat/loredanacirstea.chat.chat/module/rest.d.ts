@@ -9,6 +9,7 @@ export interface ChatMsgCreateMessageResponse {
     id?: string;
 }
 export declare type ChatMsgDeleteMessageResponse = object;
+export declare type ChatMsgSendSpaceMessageResponse = object;
 export declare type ChatMsgUpdateMessageResponse = object;
 /**
  * Params defines the parameters for the module.
