@@ -11,7 +11,10 @@ import (
 func (k msgServer) SendSpaceMessage(goCtx context.Context, msg *types.MsgSendSpaceMessage) (*types.MsgSendSpaceMessageResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	// TODO: logic before transmitting the packet
+	k.AppendMessage(ctx, types.Message{
+		Creator: msg.User,
+		Body:    msg.Body,
+	})
 
 	// Construct the packet
 	var packet types.SpaceMessagePacketData
