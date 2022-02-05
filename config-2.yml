@@ -1,6 +1,5 @@
 accounts:
   - name: bob
-    address: "cosmos1upur2220uuv4pynzj5a2vxyqzhv8ekh2p0f86s"
     coins: ["20000token", "200000000stake"]
   - name: relayer
     address: "cosmos1jmghmexanv84dj826gp24l7nfhm2zmrd9ykszg"
