@@ -50,3 +50,54 @@ curl https://get.starport.com/loredanacirstea/chat@latest! | sudo bash
 - [Starport docs](https://docs.starport.com)
 - [Cosmos SDK docs](https://docs.cosmos.network)
 - [Developer Chat](https://discord.gg/H6wGTY8sxw)
+
+
+## Commands
+
+From tutorial at https://www.youtube.com/watch?v=816PP8oXv0Q&t=3291s
+
+```
+
+starport scaffold chain github.com/loredanacirstea/chat
+starport scaffold module chat --ibc --ordering unordered
+starport scaffold list message body --module chat
+starport chain serve
+
+chatd tx chat create-message "hello" --from alice
+chatd query chat list-message
+chatd tx chat create-message "hello alice" --from bob --yes
+
+starport scaffold packet spaceMessage body:string user:string --module chat
+starport chain serve --force-reset
+
+npm i -g @confio/relayer@main
+ibc-setup init
+# Add chat-1 and chat-2 to ~/.ibc-setup/registry.yaml
+ibc-setup init --src chat-1 --dest chat-2
+chatd keys add relayer --recover --dry-run
+
+starport chain serve --config ./config-1.yml --force-reset
+starport chain serve --config ./config-2.yml --force-reset
+ibc-setup connect -v
+
+ibc-setup channel -v \
+--src-connection connection-0 \
+--dest-connection connection-0 \
+--src-port chat \
+--dest-port chat \
+--version chat-1
+
+ibc-relayer start -v
+
+chatd keys add alice --recover --home ~/.chat-1
+chatd keys add bob --recover --home ~/.chat-2
+
+
+chatd tx chat send-space-message chat channel-0 "Hi Bob" cosmos1tqjw6pxw8mnvsmye6wj48t8ktsdf40v6aq9c42 --from alice --yes --chain-id chat-1 --home ~/.chat-1 --node tcp://localhost:36657
+
+chatd query chat list-message --node tcp://localhost:36657
+chatd query chat list-message --node tcp://localhost:46657
+
+chatd tx chat send-space-message chat channel-0 "Hi Alice" cosmos1upur2220uuv4pynzj5a2vxyqzhv8ekh2p0f86s --from bob --yes --chain-id chat-2 --home ~/.chat-2 --node tcp://localhost:46657
+
+```
